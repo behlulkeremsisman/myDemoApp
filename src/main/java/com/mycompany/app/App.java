@@ -19,8 +19,8 @@ public class App
 
       for (int elt : array) {
           if (elt < e){
-              if(e%2==0)
-                  evenNumbersArray.add(e);
+              if(elt%2==0)
+                  evenNumbersArray.add(elt);
           }
       }
       return evenNumbersArray;
@@ -28,7 +28,7 @@ public class App
 
     public static void main(String[] args) {
         port(getHerokuAssignedPort());
-        get("/", (req, res) -> "Finding even numbers greater than input 2");
+        get("/", (req, res) -> "Finding even numbers less than input 2");
         post("/compute", (req, res) -> {
           //System.out.println(req.queryParams("input1"));
           //System.out.println(req.queryParams("input2"));
