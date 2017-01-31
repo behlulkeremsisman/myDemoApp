@@ -28,7 +28,7 @@ public class App
 
     public static void main(String[] args) {
         port(getHerokuAssignedPort());
-        get("/", (req, res) -> "Finding even numbers");
+        get("/", (req, res) -> "Finding even numbers greater than input 2");
         post("/compute", (req, res) -> {
           //System.out.println(req.queryParams("input1"));
           //System.out.println(req.queryParams("input2"));
@@ -44,8 +44,6 @@ public class App
             int value = Integer.parseInt(sc1.next().replaceAll("\\s",""));
             inputList.add(value);
           }
-          System.out.println(inputList);
-
 
           String input2 = req.queryParams("input2").replaceAll("\\s","");
           int input2AsInt = Integer.parseInt(input2);
@@ -54,7 +52,7 @@ public class App
          resultList = App.findEvenNumbers(inputList, input2AsInt, resultList);
          Map map = new HashMap();
             
-          map.put("result list", resultList);
+          map.put("result", resultList);
           return new ModelAndView(map, "compute.mustache");
         }, new MustacheTemplateEngine());
 
