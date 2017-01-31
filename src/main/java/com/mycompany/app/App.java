@@ -12,21 +12,23 @@ import spark.template.mustache.MustacheTemplateEngine;
 
 public class App
 {
-    public static boolean search(ArrayList<Integer> array, int e) {
-  System.out.println("inside search");
-      if (array == null) return false;
+    
+    public static ArrayList findEvenNumbers(ArrayList<Integer> array, int e, ArrayList<Integer> evenNumbersArray) {
+      if (array == null)
+          System.out.println("Please add some numbers.");
 
       for (int elt : array) {
-        if (elt == e) return true;
+          if (elt < e){
+              if(e%2==0)
+                  evenNumbersArray.add(e);
+          }
       }
-      return false;
+      return evenNumbersArray;
     }
 
     public static void main(String[] args) {
         port(getHerokuAssignedPort());
-
-        get("/", (req, res) -> "Hello, World");
-
+        get("/", (req, res) -> "Finding even numbers");
         post("/compute", (req, res) -> {
           //System.out.println(req.queryParams("input1"));
           //System.out.println(req.queryParams("input2"));
@@ -34,7 +36,9 @@ public class App
           String input1 = req.queryParams("input1");
           java.util.Scanner sc1 = new java.util.Scanner(input1);
           sc1.useDelimiter("[;\r\n]+");
+            
           java.util.ArrayList<Integer> inputList = new java.util.ArrayList<>();
+          
           while (sc1.hasNext())
           {
             int value = Integer.parseInt(sc1.next().replaceAll("\\s",""));
@@ -45,11 +49,12 @@ public class App
 
           String input2 = req.queryParams("input2").replaceAll("\\s","");
           int input2AsInt = Integer.parseInt(input2);
-
-          boolean result = App.search(inputList, input2AsInt);
-
+            
+         java.util.ArrayList<Integer> resultList = new java.util.ArrayList<>();
+         resultList = App.findEvenNumbers(inputList, input2AsInt, resultList);
          Map map = new HashMap();
-          map.put("result", result);
+            
+          map.put("result list", resultList);
           return new ModelAndView(map, "compute.mustache");
         }, new MustacheTemplateEngine());
 
